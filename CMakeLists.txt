@@ -16,4 +16,6 @@ FetchContent_MakeAvailable(SDL3)
 
 add_subdirectory(packages/graphics)
 # add_subdirectory(packages/physics)
-add_subdirectory(games/screensaver)
+# add_subdirectory(packages/gym)
+# add_subdirectory(packages/ml)
+add_subdirectory(games/cartpole)
