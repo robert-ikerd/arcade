@@ -1,0 +1,1 @@
+Simple library for handling the game loop and drawing to screen

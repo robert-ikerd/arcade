@@ -14,8 +14,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SDL3)
 
+include_directories(packages)
+
 add_subdirectory(packages/graphics)
-# add_subdirectory(packages/physics)
-# add_subdirectory(packages/gym)
+add_subdirectory(packages/gym)
 # add_subdirectory(packages/ml)
+add_subdirectory(packages/physics)
+
 add_subdirectory(games/cartpole)

@@ -1,23 +1,17 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <graphics/colors.h>
-#include <graphics/2d/shapes.h>
+#include <graphics/2d/screen.h>
+#include <physics/2d/shapes.h>
+
 
 
 int main(int argc, char* argv[]) {
-    if (!SDL_Init(SDL_INIT_VIDEO)) {
-        SDL_Log("SDL_Init Error: %s", SDL_GetError());
-        return 1;
-    }
 
-    SDL_Window* window = SDL_CreateWindow("SDL3 on macOS", 800, 600, SDL_WINDOW_RESIZABLE);
-    if (!window) {
-        SDL_Log("Window Error: %s", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
+    Graphics::Screen screen = Graphics::Screen("Cartpole", 800, 600);
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
+
+    Graphics::Color backgroundColor = Graphics::Colors::Purple;
     
     bool running = true;
     SDL_Event event;
@@ -28,26 +22,11 @@ int main(int argc, char* argv[]) {
                 running = false;
             }
         }
-        Graphics::Color backgroundColor = Graphics::Colors::White;
-        SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-        SDL_RenderClear(renderer);
+        screen.drawBackground(backgroundColor);
 
-        int w, h;
-        SDL_GetWindowSize(window, &w, &h);
-        std::array<Graphics::Vertex, 3> triPoints = {
-            Graphics::Vertex(w / 2.0f, h / 2.0f - 50.0f),
-            Graphics::Vertex(w / 2.0f - 50.0f, h / 2.0f + 50.0f),
-            Graphics::Vertex(w / 2.0f + 50.0f, h / 2.0f + 50.0f)
-        };
-        Graphics::Triangle object1 = Graphics::Triangle(Graphics::Colors::Red, triPoints);
-        object1.rotate(90.0f);
 
-        object1.draw(renderer);
-        SDL_RenderPresent(renderer);
+        screen.present();
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
     return 0;
 }
