@@ -4,32 +4,37 @@
 namespace Physics {
     struct Vec2D {
         float x,y;
-        Vec2D ();
-        Vec2D (float x, float y);
+        Vec2D (float x=0.0f, float y=0.0f);
     };
-    class Circle {
+    class Shape {
         public:
-            Circle (Physics::Vec2D center, float radius);
-            Physics::Vec2D center;
+            virtual ~Shape() {}
+            Vec2D center;
+            float radius;
+            std::vector<Vec2D> points;
+            void translate(float dx, float dy);
+    };
+    class Circle : public Shape {
+        public:
+            Circle (Vec2D center, float radius);
+            Vec2D center;
             float radius;
         private:
-            void translate(float dx, float dy);
             void rotate(float radians);
-            void rotate(float radians, Physics::Vec2D axis);
+            void rotate(float radians, Vec2D axis);
     };
-    class RegularPolygon {
+    class RegularPolygon : public Shape {
         public:
             RegularPolygon();
-            RegularPolygon (Physics::Vec2D center, int sides, float radius, float yaw);
+            RegularPolygon (Vec2D center, int sides, float radius, float yaw);
             int sides;
-            std::vector<Physics::Vec2D> points;
+            std::vector<Vec2D> points;
         private:
-            Physics::Vec2D center;
+            Vec2D center;
             float radius;
             float yaw;
             float arclength;
-            void translate(float dx, float dy);
             void rotate(float degrees);
-            void rotate(float radians, Physics::Vec2D axis);
+            void rotate(float radians, Vec2D axis);
     };
 }

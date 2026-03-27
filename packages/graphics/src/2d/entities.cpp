@@ -7,5 +7,5 @@
 
 
 namespace Graphics {
-    Entity::Entity(Physics::Object object, Graphics::Color color) : object(object), color(color) {}
+    Entity::Entity(Physics::Object object, Graphics::Color color) : object(std::move(object)), color(color) {}
 }

@@ -5,6 +5,6 @@
 
 
 namespace Physics {
-    Object::Object() : body(RegularPolygon()), mass(0.0f) {}
-    Object::Object(RegularPolygon body, float mass) : body(body), mass(mass) {}
+    Object::Object() : body(std::make_unique<Circle>(Vec2D(0,0), 1.0f)), mass(0.0f) {}
+    Object::Object(std::unique_ptr<Shape> body, float mass) : body(std::move(body)), mass(mass) {}
 }

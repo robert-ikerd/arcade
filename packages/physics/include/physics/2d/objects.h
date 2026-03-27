@@ -7,8 +7,8 @@ namespace Physics {
     class Object {
         public:
             Object();
-            Object(RegularPolygon body, float mass);
-            RegularPolygon body;
+            Object(std::unique_ptr<Shape> body, float mass);
+            std::unique_ptr<Shape> body;
         private:
             float mass;
             Vec2D velocity;

@@ -4,14 +4,21 @@
 
 
 namespace Physics {
-    Vec2D::Vec2D() : x(0.0f), y(0.0f) {}
     Vec2D::Vec2D(float x, float y) : x(x), y(y) {}
 
-    Circle::Circle(Physics::Vec2D center, float radius) : center(center), radius(radius) {}
-    void Circle::translate(float dx, float dy) {
+    void Shape::translate(float dx, float dy) {
         center.x += dx;
         center.y += dy;
+
+        if (!points.empty()) {
+            for (auto& p : points) {
+                p.x += dx;
+                p.y += dy;
+            }
+        }
     }
+
+    Circle::Circle(Physics::Vec2D center, float radius) : center(center), radius(radius) {}
     void Circle::rotate(float radians) {}
     void Circle::rotate(float radians, Physics::Vec2D axis) {
         float cosA = std::cos(radians);
@@ -39,16 +46,6 @@ namespace Physics {
             points.emplace_back(vx, vy);
         }
 
-    }
-    void RegularPolygon::translate(float dx, float dy) {
-
-        center.x += dx;
-        center.y += dy;
-
-        for (auto& p : points) {
-            p.x += dx;
-            p.y += dy;
-        }
     }
     void RegularPolygon::rotate(float radians) {
         rotate(radians, this->center);
