@@ -12,8 +12,8 @@ namespace Graphics {
         int width;
         void present();
         void drawBackground(Color color);
-        void drawEntity(const Physics::Circle& circle, Color color);
-        void drawEntity(const Physics::RegularPolygon& polygon, Color color);
+        void drawEntity(const Physics::Circle& circle, Color color, int transparency = 255);
+        void drawEntity(const Physics::RegularPolygon& polygon, Color color, int transparency = 255);
     private:
         std::string title;
         SDL_Window* window;

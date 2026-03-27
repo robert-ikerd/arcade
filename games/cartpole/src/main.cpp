@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     Graphics::Screen screen = Graphics::Screen("Cartpole", 800, 600);
 
 
-    Graphics::Color backgroundColor = Graphics::Colors::Purple;
+    Graphics::Color backgroundColor = Graphics::Colors::White;
     
     bool running = true;
     SDL_Event event;
