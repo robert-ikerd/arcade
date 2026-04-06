@@ -1,17 +1,38 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <physics/2d/geom.h>
 #include <graphics/colors.h>
-#include <graphics/2d/screen.h>
-#include <physics/2d/shapes.h>
+#include <graphics/2d/entities.h>
+#include <gym/env.h>
 
 
+const std::string configPath = std::string(CARTPOLE_SRC_DIR) + "/src/config.json";
 
 int main(int argc, char* argv[]) {
 
-    Graphics::Screen screen = Graphics::Screen("Cartpole", 800, 600);
+
+    Gym::Env env = Gym::Env(configPath);
 
 
     Graphics::Color backgroundColor = Graphics::Colors::White;
+
+    Physics::Circle circle1 = Physics::Circle(Physics::Vec2D(100,400), 10);
+    Physics::RegularPolygon circle2 = Physics::RegularPolygon(Physics::Vec2D(600,400), 3, 10);
+    Physics::RegularPolygon circle3 = Physics::RegularPolygon(Physics::Vec2D(500,500), 4, 10);
+    Physics::RegularPolygon circle4 = Physics::RegularPolygon(Physics::Vec2D(500,100), 6, 10);
+
+
+    Graphics::Entity entity1 = Graphics::Entity(Physics::Object(circle1), Graphics::Colors::Black);
+    Graphics::Entity entity2 = Graphics::Entity(Physics::Object(circle2), Graphics::Colors::Black);
+    Graphics::Entity entity3 = Graphics::Entity(Physics::Object(circle3), Graphics::Colors::Black);
+    Graphics::Entity entity4 = Graphics::Entity(Physics::Object(circle4), Graphics::Colors::Black);
+
+
+    env.addEntity(entity1);
+    env.addEntity(entity2);
+    env.addEntity(entity3);
+    env.addEntity(entity4);
+
     
     bool running = true;
     SDL_Event event;
@@ -22,10 +43,7 @@ int main(int argc, char* argv[]) {
                 running = false;
             }
         }
-        screen.drawBackground(backgroundColor);
-
-
-        screen.present();
+        env.render(backgroundColor);
     }
 
     return 0;

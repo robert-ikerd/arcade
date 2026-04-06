@@ -1,5 +1,5 @@
 add_library(physics STATIC 
-    src/2d/shapes.cpp
+    src/2d/geom.cpp
     src/2d/objects.cpp
 )
 

@@ -21,6 +21,5 @@ namespace Graphics {
         extern const Color Green;
         extern const Color Orange;
         extern const Color Purple;
-        extern const Color Shadow;
     }
 }

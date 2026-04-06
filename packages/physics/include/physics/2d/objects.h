@@ -1,14 +1,17 @@
 #pragma once
 #include <variant>
 #include <vector>
-#include "physics/2d/shapes.h"
+#include "physics/2d/geom.h"
 
 namespace Physics {
+    using BodyVariant = std::variant<Circle, RegularPolygon>;
+
     class Object {
         public:
             Object();
-            Object(std::unique_ptr<Shape> body, float mass);
-            std::unique_ptr<Shape> body;
+            Object(Physics::Circle body, float mass = 0);
+            Object(Physics::RegularPolygon body, float mass = 0);
+            BodyVariant body;
         private:
             float mass;
             Vec2D velocity;

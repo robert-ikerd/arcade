@@ -8,9 +8,9 @@ namespace Graphics {
     class Entity {
         public:
             Entity(Physics::Object object, Graphics::Color color);
-        private:
             Physics::Object object;
             Graphics::Color color;
+        private:
             float borderWidth;
     };
 }

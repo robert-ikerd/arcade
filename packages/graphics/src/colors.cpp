@@ -22,7 +22,5 @@ namespace Graphics {
         const Color Orange      = {255,     165,    0};
         // Shades of Purple
         const Color Purple      = {128,     0,      128};
-        // Specialty
-        const Color Shadow      = {0,       0,      0};
     }
 }

@@ -4,7 +4,7 @@
 namespace Graphics {
     Screen::Screen(std::string title, int height, int width) : title(title), height(height), width(width) {
         std::string windowTitle = "Game Env: " + title;
-        window = SDL_CreateWindow(windowTitle.c_str(), height, width, SDL_WINDOW_RESIZABLE);
+        window = SDL_CreateWindow(windowTitle.c_str(), width, height, SDL_WINDOW_RESIZABLE);
         if (!window) {
             SDL_Log("Window creation failed: %s", SDL_GetError());
             return;
@@ -32,19 +32,16 @@ namespace Graphics {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
         SDL_RenderClear(renderer);
     }
-    void Screen::drawEntity(const Physics::Circle& circle, Color color, int transparency) {
+    void Screen::drawEntity(const Physics::Circle& circle, const Color& color, int transparency) {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency);
-        for (int w=0; w<circle.radius*2; w++) {
-            for (int h=0; h<circle.radius*2; h++) {
-                float dx = circle.radius - w;
-                float dy = circle.radius - h;
-                if ((dx*dx + dy*dy)<=(circle.radius*circle.radius)) {
-                    SDL_RenderPoint(renderer, circle.center.x+dx, circle.center.y+dy);
-                }
-            }
+
+        for (int dy=0; dy<circle.radius; dy++) {
+            float dx = sqrtf((circle.radius * circle.radius) - (dy * dy));
+            SDL_RenderLine(renderer, circle.center.x - dx, circle.center.y + dy, circle.center.x + dx, circle.center.y + dy);
+            SDL_RenderLine(renderer, circle.center.x - dx, circle.center.y - dy, circle.center.x + dx, circle.center.y - dy);
         }
     }
-    void Screen::drawEntity(const Physics::RegularPolygon& polygon, Color color, int transparency) {
+    void Screen::drawEntity(const Physics::RegularPolygon& polygon, const Color& color, int transparency) {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency);
         SDL_Vertex vertices[polygon.sides];
 
