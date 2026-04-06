@@ -16,16 +16,16 @@ int main(int argc, char* argv[]) {
 
     Graphics::Color backgroundColor = Graphics::Colors::White;
 
-    Physics::Circle circle1 = Physics::Circle(Physics::Vec2D(100,400), 10);
-    Physics::RegularPolygon circle2 = Physics::RegularPolygon(Physics::Vec2D(600,400), 3, 10);
-    Physics::RegularPolygon circle3 = Physics::RegularPolygon(Physics::Vec2D(500,500), 4, 10);
-    Physics::RegularPolygon circle4 = Physics::RegularPolygon(Physics::Vec2D(500,100), 6, 10);
+    Physics::Circle shape1 = Physics::Circle(Physics::Vec2D(100,400), 10);
+    Physics::RegularPolygon shape2 = Physics::RegularPolygon(Physics::Vec2D(600,400), 3, 10);
+    Physics::RegularPolygon shape3 = Physics::RegularPolygon(Physics::Vec2D(500,500), 4, 10);
+    Physics::RegularPolygon shape4 = Physics::RegularPolygon(Physics::Vec2D(500,100), 6, 10);
 
 
-    Graphics::Entity entity1 = Graphics::Entity(Physics::Object(circle1), Graphics::Colors::Black);
-    Graphics::Entity entity2 = Graphics::Entity(Physics::Object(circle2), Graphics::Colors::Black);
-    Graphics::Entity entity3 = Graphics::Entity(Physics::Object(circle3), Graphics::Colors::Black);
-    Graphics::Entity entity4 = Graphics::Entity(Physics::Object(circle4), Graphics::Colors::Black);
+    Graphics::Entity entity1 = Graphics::Entity(Physics::Object(shape1), Graphics::Colors::Black);
+    Graphics::Entity entity2 = Graphics::Entity(Physics::Object(shape2), Graphics::Colors::Black);
+    Graphics::Entity entity3 = Graphics::Entity(Physics::Object(shape3), Graphics::Colors::Black);
+    Graphics::Entity entity4 = Graphics::Entity(Physics::Object(shape4), Graphics::Colors::Black);
 
 
     env.addEntity(entity1);

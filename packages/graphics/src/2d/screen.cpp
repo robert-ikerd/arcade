@@ -44,6 +44,7 @@ namespace Graphics {
     void Screen::drawEntity(const Physics::RegularPolygon& polygon, const Color& color, int transparency) {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency);
         SDL_Vertex vertices[polygon.sides];
+        std::vector<int> indices;
 
         for (int i = 0; i < polygon.sides; i++) {
             vertices[i].position.x = polygon.points[i].x;
@@ -54,6 +55,12 @@ namespace Graphics {
             vertices[i].color.b = color.b / 255.0f;
             vertices[i].color.a = transparency / 255.0f;
         };
-        SDL_RenderGeometry(renderer, nullptr, vertices, polygon.sides, nullptr, 0);
+        for (int i = 1; i<polygon.sides-1; ++i) {
+            indices.push_back(0);
+            indices.push_back(i);
+            indices.push_back(i+1);
+        }
+
+        SDL_RenderGeometry(renderer, nullptr, vertices, polygon.sides, indices.data(), indices.size());
     }
 }
