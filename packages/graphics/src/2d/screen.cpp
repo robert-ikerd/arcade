@@ -32,17 +32,18 @@ namespace Graphics {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
         SDL_RenderClear(renderer);
     }
-    void Screen::drawEntity(const Physics::Circle& circle, const Color& color, int transparency) {
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency);
+    void Screen::drawEntity(const Physics::Circle& circle, const Color& color, float transparency) {
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency * 255.0f);
 
-        for (int dy=0; dy<circle.radius; dy++) {
+        SDL_RenderLine(renderer, circle.center.x - circle.radius, circle.center.y, circle.center.x + circle.radius, circle.center.y);
+        for (int dy=1; dy<circle.radius; dy++) {
             float dx = sqrtf((circle.radius * circle.radius) - (dy * dy));
             SDL_RenderLine(renderer, circle.center.x - dx, circle.center.y + dy, circle.center.x + dx, circle.center.y + dy);
             SDL_RenderLine(renderer, circle.center.x - dx, circle.center.y - dy, circle.center.x + dx, circle.center.y - dy);
         }
     }
-    void Screen::drawEntity(const Physics::RegularPolygon& polygon, const Color& color, int transparency) {
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency);
+    void Screen::drawEntity(const Physics::RegularPolygon& polygon, const Color& color, float transparency) {
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, transparency * 255.0f);
         SDL_Vertex vertices[polygon.sides];
         std::vector<int> indices;
 
@@ -53,7 +54,7 @@ namespace Graphics {
             vertices[i].color.r = color.r / 255.0f;
             vertices[i].color.g = color.g / 255.0f;
             vertices[i].color.b = color.b / 255.0f;
-            vertices[i].color.a = transparency / 255.0f;
+            vertices[i].color.a = transparency;
         };
         for (int i = 1; i<polygon.sides-1; ++i) {
             indices.push_back(0);

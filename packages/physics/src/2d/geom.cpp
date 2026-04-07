@@ -1,9 +1,21 @@
 #include <cassert>
 #include <cmath>
+#include <numbers>
 #include "physics/2d/geom.h"
 
 
 namespace Physics {
+    float degreesToRadians(float degrees) {
+        return degrees * (std::numbers::pi / 180.0);
+    }
+    float radiansToDegrees(float radians) {
+        return radians * (180.0 / std::numbers::pi);
+    }
+    double wrapAngle(double radians) {
+        double twoPi = 2 * std::numbers::pi;
+        return radians - (twoPi * std::floor(radians / twoPi));
+    }
+
     Vec2D::Vec2D(float x, float y) : x(x), y(y) {}
 
     Circle::Circle(Physics::Vec2D center, float radius) : center(center), radius(radius) {}

@@ -16,10 +16,10 @@ int main(int argc, char* argv[]) {
 
     Graphics::Color backgroundColor = Graphics::Colors::White;
 
-    Physics::Circle shape1 = Physics::Circle(Physics::Vec2D(100,400), 10);
-    Physics::RegularPolygon shape2 = Physics::RegularPolygon(Physics::Vec2D(600,400), 3, 10);
-    Physics::RegularPolygon shape3 = Physics::RegularPolygon(Physics::Vec2D(500,500), 4, 10);
-    Physics::RegularPolygon shape4 = Physics::RegularPolygon(Physics::Vec2D(500,100), 6, 10);
+    Physics::Circle shape1 = Physics::Circle(Physics::Vec2D(100,400), 20);
+    Physics::RegularPolygon shape2 = Physics::RegularPolygon(Physics::Vec2D(600,400), 3, 20);
+    Physics::RegularPolygon shape3 = Physics::RegularPolygon(Physics::Vec2D(500,500), 4, 20);
+    Physics::RegularPolygon shape4 = Physics::RegularPolygon(Physics::Vec2D(500,100), 8, 50);
 
 
     Graphics::Entity entity1 = Graphics::Entity(Physics::Object(shape1), Graphics::Colors::Black);

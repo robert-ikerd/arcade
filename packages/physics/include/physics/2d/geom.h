@@ -2,6 +2,9 @@
 #include <vector>
 
 namespace Physics {
+    float degreesToRadians(float degrees);
+    float radiansToDegrees(float radians);
+    double wrapAngle(float radians);
     struct Vec2D {
         float x,y;
         Vec2D (float x=0.0f, float y=0.0f);
