@@ -8,7 +8,7 @@
 using json = nlohmann::json;
 
 namespace Gym {
-    Env::Env(const std::string& configPath) {
+    Env::Env(const std::string& configPath, Gym::Mode mode) : mode(mode) {
         std::ifstream configFile(configPath);
         if (!configFile.is_open()) {
             SDL_Log("Could not open config file: %s", configPath.c_str());
