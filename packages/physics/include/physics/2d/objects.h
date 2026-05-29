@@ -13,6 +13,7 @@ namespace Physics {
             Object(Physics::RegularPolygon body, float mass = 0);
             Object(Physics::CustomPolygon body, float mass = 0);
             BodyVariant body;
+            Vec2D acceleration = Vec2D(0.0f, 0.0f);
             void processPhysics();
             void setAcceleration(Vec2D newAcceleration);
             void setVelocity(Vec2D newVelocity);
@@ -21,7 +22,6 @@ namespace Physics {
         private:
             float mass;
             Vec2D velocity = Vec2D(0.0f, 0.0f);
-            Vec2D acceleration = Vec2D(0.0f, 0.0f);
             float dTheta = 0.0f;
             float ddTheta = 0.0f;
     };

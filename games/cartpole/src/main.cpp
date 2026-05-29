@@ -63,7 +63,29 @@ int main(int argc, char* argv[]) {
         Gym::AdminAction adminActions = Gym::AdminAction::NONE;
 
         while (SDL_PollEvent(&event)) {
-            adminActions |= env.parseAdminAction(event);
+            adminActions |= env.parseAdminAction(event);if (event.type == SDL_EVENT_KEY_DOWN) {
+                // Get references to live physics objects inside the container
+                auto& liveCart = env.entities[0].object;
+                auto& livePole = env.entities[1].object;
+
+                Physics::Vec2D newAcceleration;
+
+                switch (event.key.key) {
+                    case SDLK_LEFT:
+                        newAcceleration.x = -0.1;
+                        break;
+
+                    case SDLK_RIGHT:
+                        newAcceleration.x = 0.1;
+                        break;
+                    
+                    default:
+                        break;
+                }
+
+                liveCart.setAcceleration(newAcceleration);
+                livePole.setAcceleration(newAcceleration);
+            }
         }
         env.handleAdminActions(adminActions);
 
@@ -73,7 +95,8 @@ int main(int argc, char* argv[]) {
             std::visit([&currentAngle](const auto& shape) {
                 currentAngle = shape.yaw; 
             }, livePoleEntity.object.body);
-            livePoleEntity.object.setDDTheta(0.01 * std::sin(currentAngle));
+            float cartAcceleration = livePoleEntity.object.acceleration.x;
+            livePoleEntity.object.setDDTheta(0.01 * std::sin(currentAngle) - 0.01 * cartAcceleration * std::cos(currentAngle));
             env.step();
             env.render(backgroundColor);
         }
