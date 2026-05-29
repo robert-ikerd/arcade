@@ -72,8 +72,6 @@ int main(int argc, char* argv[]) {
             float currentAngle = 0.0f;
             std::visit([&currentAngle](const auto& shape) {
                 currentAngle = shape.yaw; 
-                std::cout << "Current Pole Angle (Yaw): " << shape.yaw << std::endl;
-                std::cout << "Current DDTheta : " << std::sin(currentAngle) << std::endl;
             }, livePoleEntity.object.body);
             livePoleEntity.object.setDDTheta(0.01 * std::sin(currentAngle));
             env.step();
