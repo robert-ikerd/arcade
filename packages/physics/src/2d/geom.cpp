@@ -64,6 +64,44 @@ namespace Physics {
         rotate(radians, this->center);
     }
     void RegularPolygon::rotate(float radians, Physics::Vec2D axis) {
+        yaw += radians;
+        float cosA = std::cos(radians);
+        float sinA = std::sin(radians);
+
+        for (auto& p : points) {
+            float tx = p.x - axis.x;
+            float ty = p.y - axis.y;
+
+            float rx = tx * cosA - ty * sinA;
+            float ry = tx * sinA + ty * cosA;
+
+            p.x = rx + axis.x;
+            p.y = ry + axis.y;
+        }
+
+        if (&axis != &this->center) {
+                float cx = center.x - axis.x;
+                float cy = center.y - axis.y;
+                center.x = (cx * cosA - cy * sinA) + axis.x;
+                center.y = (cx * sinA + cy * cosA) + axis.y;
+            }
+    }
+
+    CustomPolygon::CustomPolygon(Physics::Vec2D center, std::vector<Vec2D> points, float yaw) : center(center), points(points), yaw(yaw) {}
+    void CustomPolygon::translate(float dx, float dy) {
+        center.x += dx;
+        center.y += dy;
+
+        for (auto& p : points) {
+            p.x += dx;
+            p.y += dy;
+        }
+    }
+    void CustomPolygon::rotate(float radians) {
+        rotate(radians, this->center);
+    }
+    void CustomPolygon::rotate(float radians, Physics::Vec2D axis) {
+        yaw += radians;
         float cosA = std::cos(radians);
         float sinA = std::sin(radians);
 

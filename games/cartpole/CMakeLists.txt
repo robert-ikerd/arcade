@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(CartPole LANGUAGES CXX)
 
+find_package(SDL3 REQUIRED)
+
 add_executable(cartpole MACOSX_BUNDLE src/main.cpp)
 
 target_compile_definitions(cartpole PRIVATE 

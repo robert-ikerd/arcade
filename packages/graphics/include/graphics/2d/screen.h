@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include "graphics/colors.h"
 #include <physics/2d/geom.h>
 
@@ -12,11 +13,14 @@ namespace Graphics {
         int width;
         void present();
         void drawBackground(Color color);
+        void writeText(std::string text, Graphics::Color color, int x, int y);
         void drawEntity(const Physics::Circle& circle, const Color& color, float transparency = 1.0);
         void drawEntity(const Physics::RegularPolygon& polygon, const Color& color, float transparency = 1.0);
+        void drawEntity(const Physics::CustomPolygon& polygon, const Color& color, float transparency = 1.0);
     private:
         std::string title;
         SDL_Window* window;
         SDL_Renderer* renderer;
+        TTF_Font* font;
     };
 }

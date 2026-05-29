@@ -17,6 +17,7 @@ namespace Physics {
             void translate(float dx, float dy);
             void rotate(float radians);
             void rotate(float radians, Vec2D axis);
+            float yaw;
     };
     class RegularPolygon {
         public:
@@ -27,10 +28,21 @@ namespace Physics {
             void translate(float dx, float dy);
             void rotate(float radians);
             void rotate(float radians, Vec2D axis);
+            float yaw;
         private:
             Vec2D center;
             float radius;
-            float yaw;
             float arclength;
+    };
+    class CustomPolygon {
+        public:
+            CustomPolygon (Vec2D center, std::vector<Vec2D> points, float yaw = 0);
+            std::vector<Vec2D> points;
+            float yaw;
+            void translate(float dx, float dy);
+            void rotate(float radians);
+            void rotate(float radians, Vec2D axis);
+        private:
+            Vec2D center;
     };
 }

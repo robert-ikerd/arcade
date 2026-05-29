@@ -1,3 +1,5 @@
+#include <iostream>
+#include <random>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <physics/2d/geom.h>
@@ -10,40 +12,74 @@ const std::string configPath = std::string(CARTPOLE_SRC_DIR) + "/src/config.json
 
 int main(int argc, char* argv[]) {
 
+    const int w = 800;
+    const int h = 600;
+    Physics::Vec2D center = Physics::Vec2D(w/2, 2*h/3);
 
     Gym::Env env = Gym::Env(configPath);
 
 
     Graphics::Color backgroundColor = Graphics::Colors::White;
 
-    Physics::Circle shape1 = Physics::Circle(Physics::Vec2D(100,400), 20);
-    Physics::RegularPolygon shape2 = Physics::RegularPolygon(Physics::Vec2D(600,400), 3, 20);
-    Physics::RegularPolygon shape3 = Physics::RegularPolygon(Physics::Vec2D(500,500), 4, 20);
-    Physics::RegularPolygon shape4 = Physics::RegularPolygon(Physics::Vec2D(500,100), 8, 50);
+    std::vector<Physics::Vec2D> cartFrame;
+    cartFrame.emplace_back(center.x-30.0f, center.y-15.0f);
+    cartFrame.emplace_back(center.x+30.0f, center.y-15.0f);
+    cartFrame.emplace_back(center.x+30.0f, center.y+15.0f);
+    cartFrame.emplace_back(center.x-30.0f, center.y+15.0f);
+
+    Physics::CustomPolygon cart = Physics::CustomPolygon(center, cartFrame);
 
 
-    Graphics::Entity entity1 = Graphics::Entity(Physics::Object(shape1), Graphics::Colors::Black);
-    Graphics::Entity entity2 = Graphics::Entity(Physics::Object(shape2), Graphics::Colors::Black);
-    Graphics::Entity entity3 = Graphics::Entity(Physics::Object(shape3), Graphics::Colors::Black);
-    Graphics::Entity entity4 = Graphics::Entity(Physics::Object(shape4), Graphics::Colors::Black);
+    std::vector<Physics::Vec2D> poleFrame;
+    Physics::Vec2D poleCenter = Physics::Vec2D(center.x, center.y-10.0f);
+    poleFrame.emplace_back(poleCenter.x-3.0f, poleCenter.y);
+    poleFrame.emplace_back(poleCenter.x+3.0f, poleCenter.y);
+    poleFrame.emplace_back(poleCenter.x+3.0f, poleCenter.y-60.0f);
+    poleFrame.emplace_back(poleCenter.x-3.0f, poleCenter.y-60.0f);
 
+    static std::random_device rd;
+    static std::mt19937 generator(rd());
+    double maxAngle = 0.1;
+    std::uniform_real_distribution<float> distribution(-maxAngle, maxAngle);
 
-    env.addEntity(entity1);
-    env.addEntity(entity2);
-    env.addEntity(entity3);
-    env.addEntity(entity4);
+    Physics::CustomPolygon pole = Physics::CustomPolygon(poleCenter, poleFrame);
+    pole.rotate(distribution(generator));
 
-    
-    bool running = true;
+    std::uniform_real_distribution<float> speed_distribution(-1, 1);
+    Physics::Vec2D cartSpeed = {speed_distribution(generator), 0.0};
+
+    Graphics::Entity cartEntity = Graphics::Entity(Physics::Object(cart), Graphics::Colors::Black);
+    Graphics::Entity poleEntity = Graphics::Entity(Physics::Object(pole), Graphics::Colors::Orange);
+
+    cartEntity.object.setVelocity(cartSpeed);
+    poleEntity.object.setVelocity(cartSpeed);
+
+    env.addEntity(cartEntity);
+    env.addEntity(poleEntity);
+
     SDL_Event event;
 
-    while (running) {
+    while (env.running) {
+        Gym::AdminAction adminActions = Gym::AdminAction::NONE;
+
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
-                running = false;
-            }
+            adminActions |= env.parseAdminAction(event);
         }
-        env.render(backgroundColor);
+        env.handleAdminActions(adminActions);
+
+        if (~env.paused) {
+            auto& livePoleEntity = env.entities[1];
+            float currentAngle = 0.0f;
+            std::visit([&currentAngle](const auto& shape) {
+                currentAngle = shape.yaw; 
+                std::cout << "Current Pole Angle (Yaw): " << shape.yaw << std::endl;
+                std::cout << "Current DDTheta : " << std::sin(currentAngle) << std::endl;
+            }, livePoleEntity.object.body);
+            livePoleEntity.object.setDDTheta(0.01 * std::sin(currentAngle));
+            env.step();
+            env.render(backgroundColor);
+        }
+
     }
 
     return 0;
