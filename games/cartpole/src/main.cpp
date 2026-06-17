@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
         }
         env.handleAdminActions(adminActions);
 
-        if (~env.paused) {
+        if (!env.paused) {
             auto& livePoleEntity = env.entities[1];
             float currentAngle = 0.0f;
             std::visit([&currentAngle](const auto& shape) {
